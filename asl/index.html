@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+    <head>
+        <title>ASL reference</title>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #000;
+                color: #fff;
+            }
+
+            h1 { text-align: center; }
+
+            .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+
+            /* Modal Content */
+            .modal-content {
+                background-color: #fefefe;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+            }
+
+            /* The Close Button */
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <h1>Reference page</h1>
+        <div class="all-signs">
+            <h2 id="numbers">Numbers</h2>
+            <ul>
+                <li>1-5</li>
+                <li>6-10</li>
+                <li>11-15</li>
+                <li>16-20</li>
+            </ul>
+            <h2 id="yes-no">Yes/No</h2>
+            <ul>
+                <li>1-5</li>
+                <li>6-10</li>
+                <li>11-15</li>
+                <li>16-20</li>
+            </ul>
+            <h2 id="colors">Colors</h2>
+            <ul>
+                <li>Pink</li>
+                <li>Red</li>
+                <li>Orange</li>
+                <li>Yellow</li>
+                <li>Green</li>
+                <li>Blue</li>
+                <li>Purple</li>
+                <li>Brown</li>
+                <li>Grey</li>
+                <li>Black</li>
+                <li>White</li>
+                <li>Silver</li>
+                <li>Gold</li>
+            </ul>
+            <h2 id="greetings">Greetings</h2>
+            <ul>
+                <li>Hello</li>
+                <li>Welcome</li>
+                <li>Good Morning</li>
+                <li>Good Afternoon</li>
+                <li>Good Evening</li>
+            </ul>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Word / Phrase (click for youtube)</th>
+                    <th>Gif</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <button id="myBtn">Open Modal</button>
+        <div id="detailsModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <iframe width="500" height="310" src="https://www.youtube.com/embed/QJXKaOSyl4o?autoplay=1&loop=1&playlist=x0OA2V35g8g&mute=1&showinfo=0&controls=1&modestbranding=1&autohide=1&color=white&playsinline=1&rel=0&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- Begin Javascript -->
+        <script>
+            /**** Generating Table of Contents from the h2 id's *****/
+            var ToC =
+            "<nav role='navigation' class='table-of-contents'>" +
+                "<h2>On this page:</h2>" +
+                "<ul>";
+
+            var newLine, el, title, link;
+
+            $("h2").each(function() {
+
+            el = $(this);
+            title = el.text();
+            link = "#" + el.attr("id");
+
+            newLine =
+                "<li>" +
+                "<a href='" + link + "'>" +
+                    title +
+                "</a>" +
+                "</li>";
+
+            ToC += newLine;
+
+            });
+
+            ToC +=
+            "</ul>" +
+            "</nav>";
+
+            $(".all-signs").prepend(ToC);
+
+            /***** json data ******/
+            const jsonData = 
+            [
+                {
+                    "Numbers": [
+                        {
+                            "phrase": "1 through 10",
+                            "image": "https://www.lifeprint.com/asl101/signjpegs/n/number-chart-1-10.jpg",
+                            "notes": "Keep fingers spread apart. For 6-9, tap pads of fingers twice. For 10, shake it a little.",
+                            "youtube": "x0OA2V35g8g"
+                        },
+                        {
+                            "phrase": "11 through 20",
+                            "image": "https://i.makeagif.com/media/6-16-2020/nAssW8.gif",
+                            "notes": "",
+                            "youtube": "UI5KLVn8JKI"
+                        }
+                    ]
+                },
+                {
+                    "Yes-No": [
+                        {
+                            "phrase": "Yes",
+                            "image": "https://media.tenor.com/oYIirlyIih0AAAAC/yes-asl.gif",
+                            "notes": "",
+                            "youtube": "0usayvOXzHo"
+                        },
+                        {
+                            "phrase": "No",
+                            "image": "https://www.lifeprint.com/asl101/gifs/n/no-2-movement.gif",
+                            "notes": "Twice for polite way. One motion for a more firm no.",
+                            "youtube": "QJXKaOSyl4o"
+                        }
+                    ]
+                }
+            ];
+
+            //const jsonObject = JSON.parse(jsonData);
+            //console.log(Object.keys(jsonObject));
+            /* https://copyprogramming.com/howto/javascript-find-keys-in-nested-json-object-javascript#google_vignette
+            let result = jsonData.options.map(x => Object.keys(x));
+            console.log(result.flat(1))
+            */
+            const tableBody = document.getElementById('asl-notes');
+            const headersArray = jsonData.map(x => Object.keys(x)[0]);
+            console.log("headersArray: " + headersArray);
+
+            /*
+            function loopThroughJSON(obj) {
+                for (let key in obj) {
+                    if (typeof obj[key] === 'object') {
+                        if (Array.isArray(obj[key])) {
+                            // loop through array
+                            for (let i = 0; i < obj[key].length; i++) {
+                            loopThroughJSON(obj[key][i]);
+                            }
+                        } else {
+                            // call function recursively for object
+                            loopThroughJSON(obj[key]);
+                        }
+                    } else {
+                    // do something with value
+                    console.log(key + ': ' + obj[key]);
+                    }
+                }
+            }
+            //loopThroughJSON(jsonData); // https://medium.com/@alaneicker/how-to-process-json-data-with-recursion-dc530dd3db09
+            */
+
+            for (let key in jsonData) {
+                if(typeof jsonData[key] === 'object') {
+                    console.log(Object.keys(jsonData[key]));
+                }
+                const headerRow = document.createElement('tr');
+                headerRow.innerHTML = ``;
+                tableBody.appendChild(row);
+            }
+            
+            /*
+            jsonData.forEach(item => {
+                const row = document.createElement('tr');
+                const phraseColumn = document.createElement('td').innerHTML=`<h3>${item.phrase}</h3>`;
+                const gifColumn = document.createElement('td').innerHTML=`${item.image ? `<img src="${item.image}" alt="${item.phrase}" width="200">` : ''}`;
+                row.innerHTML = `
+                    <td class="bold">${item.phrase} ${item.Headers}</td>
+                    <td>${item.image ? `<img src="${item.image}" alt="${item.phrase}" width="200">` : ''}</td>
+                    <td class="${item.phrase}">
+                        ${item.youtube ? `
+                        <div class="video-container">
+                            <iframe width="250" height="141" src="https://www.youtube.com/embed/${item.youtube}?autoplay=0&loop=1&playlist=${item.youtube}&mute=1&showinfo=0&controls=1&modestbranding=1&autohide=1&color=white&playsinline=1&rel=0&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        </div>
+                        ` : ''}
+                    </td>
+                    <td>${item.notes}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            */
+
+            // Detail popup for phrase
+            var modal = document.getElementById('detailsModal');
+            var btn = document.getElementById("myBtn");
+            var span = document.getElementsByClassName("close")[0];
+
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Permutations Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        /* Add CSS to set vertical-align to top for the two columns */
+        td {
+            vertical-align: top;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Define the .highlighted-red class for favorites with the specified style */
+        .highlighted-red {
+            background-color: #a00;
+            color:#f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Permutations Generator</h1>
+    <p>Permutations with the first character from A to O (excluding 'C' and 'K'), no 'Q' in the name, different consonant for the first two characters, at least one vowel in the name, and excluding starting with "aa", "ii", "oo", "fag" combinations:</p>
+    <p id="favorites-array">Permutations that are <span class="highlighted-red">highlighted red</span> are favorites:<br/></p>
+    //TODO: No L or R so my parents can say it.
+    
+    <table>
+        <tr>
+            <td>
+                <p id="permutations2Count">2-Character Permutations:</p>
+                <table id="permutations2Table">
+                    <thead>
+                        <tr>
+                            <th>Permutation</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </td>
+            <td>
+                <p id="permutations3Count">3-Character Permutations:</p>
+                <table id="permutations3Table">
+                    <thead>
+                        <tr>
+                            <th>Permutation</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </td>
+            <td>
+                <p id="permutations4Count">4-Character Permutations:</p>
+                <table id="permutations4Table">
+                    <thead>
+                        <tr>
+                            <th>Permutation</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        function isConsonant(char) {
+            return 'BCDFGHJKLMNPRSTVWXYZ'.includes(char); //excludes Q
+        }
+
+        function hasVowel(chars) {
+            return chars.split('').some(char => 'AEIOU'.includes(char));
+        }
+
+        function generatePermutations(length) {
+            const alphabet = 'ABCDEFGHIJKLMNOPRSTUVWXYZ'; //excludes Q
+            const firstCharacters = alphabet.slice(0, 15);
+
+            const permutations = [];
+
+            for (let i = 0; i < firstCharacters.length; i++) {
+                const firstChar = firstCharacters[i];
+
+                if (firstChar !== 'C' && firstChar !== 'K') {
+                    for (let j = 0; j < alphabet.length; j++) {
+                        const secondChar = alphabet[j];
+
+                        if (length === 2) {
+                            const permutation = firstChar + secondChar;
+                            if (!(permutation.startsWith('AA') || permutation.startsWith('II') || permutation.startsWith('UU') || permutation.startsWith('FAG')) && hasVowel(permutation)) {
+                                //permutations.push(j + ": " + permutation);
+                                permutations.push(permutation);
+                            }
+                        } else {
+                        for (let k = 0; k < alphabet.length; k++) {
+                            const thirdChar = alphabet[k];
+
+                            if (length === 3) {
+                                const permutation = firstChar + secondChar + thirdChar;
+                                if (!(permutation.startsWith('AA') || permutation.startsWith('II') || permutation.startsWith('UU') || permutation.startsWith('FAG')) && hasVowel(permutation)) {
+                                    //permutations.push(j + "/" + k + ": " + permutation);
+                                    permutations.push(permutation);
+                                }
+                            } else if (length === 4) {
+                                for (let l = 0; l < alphabet.length; l++) {
+                                    const fourthChar = alphabet[l];
+                                    const permutation = firstChar + secondChar + thirdChar + fourthChar;
+                                    if (!(permutation.startsWith('AA') || permutation.startsWith('II') || permutation.startsWith('UU') || permutation.startsWith('FAG')) && hasVowel(permutation)) {
+                                        //permutations.push(j + "/" + k + "/" + k + ": " + permutation);
+                                        permutations.push(permutation);
+                                    }
+                                }
+                            }
+                        }
+                        }
+                    }
+                }
+            }
+
+            return permutations;
+        }
+        //wow
+
+        const favorites = ["AJ", "OZ", "ACE", "ADI", "ASH", "AVI", "BIX", "DAX", "FRY", "HUE", "FERN", "FATE"];
+
+        // Prints the favorites in the header
+        const favoritesString = favorites.join(', ');
+        const favoritesArray = document.getElementById("favorites-array");
+        favoritesArray.append(favoritesString);
+
+        // Get the 2-character permutations and display them in the table
+        const result2 = generatePermutations(2);
+        const permutations2Table = document.getElementById("permutations2Table");
+
+        result2.forEach(permutation => {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.textContent = permutation;
+            if (favorites.includes(permutation)) {
+                cell.classList.add("highlighted-red"); // Add the "highlighted-red" class for favorites
+            }
+            row.appendChild(cell);
+            permutations2Table.querySelector("tbody").appendChild(row);
+        });
+
+        const permutations2Count = document.getElementById("permutations2Count");
+        const count2 = result2.length;
+        permutations2Count.textContent = `2-Character Permutations: ${count2}`;
+
+        // Get the 3-character permutations and display them in the table
+        const result3 = generatePermutations(3);
+        const permutations3Table = document.getElementById("permutations3Table");
+
+        result3.forEach(permutation => {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.textContent = permutation;
+            if (favorites.includes(permutation)) {
+                cell.classList.add("highlighted-red"); // Add the "highlighted-red" class for favorites
+            }
+            row.appendChild(cell);
+            permutations3Table.querySelector("tbody").appendChild(row);
+        });
+
+        const permutations3Count = document.getElementById("permutations3Count");
+        const count3 = result3.length;
+        permutations3Count.textContent = `3-Character Permutations: ${count3}`;
+
+        // Get the 4-character permutations and display them in the table
+        const result4 = generatePermutations(4);
+        const permutations4Table = document.getElementById("permutations4Table");
+
+        result4.forEach(permutation => {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.textContent = permutation;
+            if (favorites.includes(permutation)) {
+                cell.classList.add("highlighted-red"); // Add the "highlighted-red" class for favorites
+            }
+            row.appendChild(cell);
+            permutations4Table.querySelector("tbody").appendChild(row);
+        });
+
+        const permutations4Count = document.getElementById("permutations4Count");
+        const count4 = result4.length;
+        permutations4Count.textContent = `4-Character Permutations: ${count4}`;
+    </script>
+</body>
+</html>

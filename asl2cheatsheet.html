@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jo's ASL cheatsheet</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        h1 { text-align: center; }
+
+        /* Add CSS to set vertical-align to top for the two columns */
+        td {
+            vertical-align: top;
+        }
+        table {
+            border-collapse: collapse;
+            background-color: #888;
+            width: 80%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #fff;
+            padding: 8px;
+        }
+        th {
+            background-color: #333;
+        }
+        .bold { font-weight: bold; }
+
+        /* hide youtube information https://stackoverflow.com/questions/18342536/how-to-hide-the-bar-at-the-top-of-youtube-even-when-mouse-hovers-over-it */
+        .video-container {
+            /*overflow: hidden;*/
+            /*width: 100%;*/
+            /* Keep it the right aspect-ratio */
+            /*aspect-ratio: 16/9;*/
+            /* No clicking/hover effects */
+            /*pointer-events: none;*/
+            
+            iframe {
+                /* Extend it beyond the viewport... */
+                /*width: 300%;*/
+                /*height: 100%;*/
+                /* ...and bring it back again */
+                /*margin-left: -100%;*/
+                background-color: #000;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+    <iframe name="youtube-viewing-area" style="position: fixed; bottom: 5px; right: 20px; width: 500px; height: 280px; border: 0;"></iframe>
+    <h1>San Jose Learning Center: ASL Notes / Cheatsheet</h1>
+
+    <!--
+    <button id="toggle-youtube" style="font-size: 1.4em;">Turn off youtube loading</button>
+    -->
+    <ul class="toc-by-category">
+        <li><a href="./locations-directions/">Locations &amp; Directions</a></li>
+    </ul>
+    <div class="testing-category">
+
+    </div>
+    <h2 style="text-align: center;">ASL 2</h2>
+    <p style="text-align: center;"><a href="./asl2cheatsheet.html" style="color: #fff;">ASL 1 on separate page</a></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Word / Phrase</th>
+                <th>Sign</th>
+                <th class="youtube-column">YouTube</th>
+                <th>Extra notes</th>
+            </tr>
+        </thead>
+        <tbody id="asl-notes"></tbody>
+    </table>
+
+    <!--
+    <p id="json-container"></p>
+    <script type="module" src="https://jochou.com/js/aslcheatsheet.js"></script>
+    -->
+    <script>
+        const jsonData = [
+        {
+            "phrase": "1ST - 9TH (order / directions / dates)",
+            "image": "https://lifeprint.com/asl101/gifs/f/first-ordinal.gif",
+            "notes": "start palm out and twist in towards you",
+            "youtube": "6p-UayU1b6A",
+            "category": ""
+        },
+        {
+            "phrase": "1ST - 9TH (ranking)",
+            "image": "https://lifeprint.com/asl101/gifs/f/first-place.gif",
+            "notes": "# swinging down to horizontal of it. pull away and throw it down. In image, starts inwards and pulls outwards",
+            "youtube": "pDcTVmWnsa0",
+            "category": ""
+        },
+        {
+            "phrase": "FLOOR",
+            "image": "",
+            "notes": "two palms down separating",
+            "youtube": "ITtL6y_Lt14",
+            "category": ""
+        },
+        {
+            "phrase": "ELEVATOR (E version)",
+            "image": "https://www.lifeprint.com/asl101/gifs/e/elevator.gif",
+            "notes": "1. E going up against vertical palm and moving up. 2. 2 fingers on palm moving up",
+            "youtube": "ztBZaV2yoxs",
+            "category": ""
+        },
+        {
+            "phrase": "ELEVATOR (inverted V version)",
+            "image": "https://www.lifeprint.com/asl101/gifs/e/elevator-version.gif",
+            "notes": "1. E going up against vertical palm and moving up. 2. 2 fingers on palm moving up",
+            "youtube": "JdQtf0sl5KI",
+            "category": ""
+        },
+        {
+            "phrase": "BASIC",
+            "image": "",
+            "notes": "",
+            "youtube": "Ih9dmJBbHD0",
+            "category": ""
+        },
+        {
+            "phrase": "DIRECTION",
+            "image": "",
+            "notes": "",
+            "youtube": "ZSOrVxbPw4M",
+            "category": ""
+        },
+        {
+            "phrase": "LAB",
+            "image": "",
+            "notes": "fingerspelling only",
+            "youtube": "7Y0PTyh0j0c",
+            "category": ""
+        },
+        {
+            "phrase": "HALL / HALLWAY",
+            "image": "",
+            "notes": "",
+            "youtube": "QJj9y6hepKI",
+            "category": ""
+        },
+        {
+            "phrase": "RIGHT",
+            "image": "",
+            "notes": "w/ palm or w/ finger, point around the corner to the right",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "LEFT",
+            "image": "",
+            "notes": "w/ palm or w/ finger, point around the corner to the right",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "TOILET",
+            "image": "https://www.lifeprint.com/asl101/signjpegs/b/bathro2.jpg",
+            "notes": "T + shake it slightly side to side",
+            "youtube": "2xdhyJEgXdI",
+            "category": ""
+        },
+        {
+            "phrase": "NEAR",
+            "image": "https://www.lifeprint.com/asl101/signjpegs/c/close.by2.jpg",
+            "notes": "Pat front of left palm. Left palm is cupped like a C. directions grammar example: ON 4TH FLOOR NEAR",
+            "youtube": "Zv7n5RlK6W4",
+            "category": ""
+        },
+        {
+            "phrase": "DIFFERENT / UNIQUE",
+            "image": "https://www.lifeprint.com/asl101/gifs-animated/different.gif",
+            "notes": "two pointers in X and separating out. This is the same sign as BUT, but BUT is a smaller sign, while DIFFERENT is larger",
+            "youtube": "EunD6JXshgY",
+            "category": ""
+        },
+        {
+            "phrase": "BUILDING",
+            "image": "https://www.lifeprint.com/asl101/gifs/b/build-construction.gif",
+            "notes": "Make sure to move higher and hgiher with the movement. 1. Use whole palm 2. Use H fingers instead ?",
+            "youtube": "Ytt6YIYV6qs",
+            "category": ""
+        },
+        {
+            "phrase": "LIBRARY",
+            "image": "https://www.lifeprint.com/asl101/signjpegs/l/library_arrow.jpg",
+            "notes": "L in a circle",
+            "youtube": "CSaOomMxWl4",
+            "category": ""
+        },
+        {
+            "phrase": "CLASS",
+            "image": "",
+            "notes": "C w/ both hands",
+            "youtube": "L2KfrlugnC4",
+            "category": ""
+        },
+        {
+            "phrase": "WATER",
+            "image": "https://www.lifeprint.com/asl101/gifs/w/water-2.gif",
+            "notes": "",
+            "youtube": "SdOfxGhb0A",
+            "category": ""
+        },
+        {
+            "phrase": "PHONE",
+            "image": "https://www.lifeprint.com/asl101/gifs-animated/phone-01.gif",
+            "notes": "",
+            "youtube": "fgg7qxjYh_0",
+            "category": ""
+        },
+        {
+            "phrase": "FRONT DOOR",
+            "image": "",
+            "notes": "like front door. palms up facing outwards. twice inwards towards me.",
+            "youtube": "8H5YOwSmhDk",
+            "category": ""
+        },
+        {
+            "phrase": "BOOK",
+            "image": "https://www.lifeprint.com/asl101/gifs/b/book.gif",
+            "notes": "",
+            "youtube": "d_2wamCx7lg",
+            "category": ""
+        },
+        {
+            "phrase": "STORE",
+            "image": "https://www.lifeprint.com/asl101/images-signs/store.gif",
+            "notes": "",
+            "youtube": "CPp1UOM-olA",
+            "category": ""
+        },
+        {
+            "phrase": "BOOKSTORE",
+            "image": "https://www.lifeprint.com/asl101/gifs/b/bookstore.gif",
+            "notes": "",
+            "youtube": "p-nShFm-6MQ",
+            "category": ""
+        },
+        {
+            "phrase": "FOOD",
+            "image": "",
+            "notes": "",
+            "youtube": "2Dl1Q4vlQKs",
+            "category": ""
+        },
+        {
+            "phrase": "RESTAURANT",
+            "image": "",
+            "notes": "FOOD + STORE",
+            "youtube": "IR9bbRSVp7U",
+            "category": ""
+        },
+        {
+            "phrase": "MACHINE",
+            "image": "https://www.lifeprint.com/asl101/gifs-animated/machine.gif",
+            "notes": "interlaced fingers flick downwards twice",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "SODA MACHINE",
+            "image": "",
+            "notes": "",
+            "youtube": "UTrjMyWGeGg",
+            "category": ""
+        },
+        {
+            "phrase": "SWEET",
+            "image": "",
+            "notes": "1. whole hand flick down on chin. 2. with 2 fingers flick down on chin",
+            "youtube": "pYKpw_4wTpw",
+            "category": ""
+        },
+        {
+            "phrase": "CANDY",
+            "image": "https://www.lifeprint.com/asl101/gifs/c/candy.gif",
+            "notes": "Pointer finger twist on cheek",
+            "youtube": "EfJ4xLiX5IA",
+            "category": ""
+        },
+        {
+            "phrase": "ATM",
+            "image": "",
+            "notes": "fingerspell",
+            "youtube": "opDgL5bMToY",
+            "category": ""
+        },
+        {
+            "phrase": "LOBBY",
+            "image": "",
+            "notes": "fingerspell",
+            "youtube": "OjORcPezct4",
+            "category": ""
+        },
+        {
+            "phrase": "AREA",
+            "image": "https://www.lifeprint.com/asl101/gifs/a/area.gif",
+            "notes": "",
+            "youtube": "lxuXlteq-cI",
+            "category": ""
+        },
+        {
+            "phrase": "TO GO INTO / ENTER",
+            "image": "",
+            "notes": "",
+            "youtube": "x9nC_9QylBA",
+            "category": ""
+        },
+        {
+            "phrase": "OUT / EXIT / GO OUT",
+            "image": "https://www.lifeprint.com/asl101/gifs-animated/exit-out.gif",
+            "notes": "",
+            "youtube": "QypzczNx0iY",
+            "category": ""
+        },
+        {
+            "phrase": "STAIRS",
+            "image": "",
+            "notes": "",
+            "youtube": "TFtn8OyCGj4",
+            "category": ""
+        },
+        {
+            "phrase": "KITCHEN",
+            "image": "https://www.lifeprint.com/asl101/gifs/k/kitchen-1.gif",
+            "notes": "",
+            "youtube": "lmqs2F__zH4",
+            "category": ""
+        },
+        {
+            "phrase": "VOCABULARY",
+            "image": "",
+            "notes": "",
+            "youtube": "ZLN8GbGcxbw",
+            "category": ""
+        },
+        {
+            "phrase": "'S",
+            "image": "",
+            "notes": "s rotated",
+            "youtube": "QfXNM1EHyKI",
+            "category": ""
+        },
+        {
+            "phrase": "PATIENCE",
+            "image": "",
+            "notes": "thumb from nose to chin",
+            "youtube": "DAmZuOt9FnY",
+            "category": ""
+        },
+        {
+            "phrase": "HURRY",
+            "image": "https://www.lifeprint.com/asl101/gifs-animated/hurry.gif",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "FEEL FOOL",
+            "image": "",
+            "notes": "slow squeeze O under chin",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "SEND",
+            "image": "https://www.lifeprint.com/asl101/signjpegs/s/send.h1.jpg",
+            "notes": "",
+            "youtube": "btjZ2F9BUAA",
+            "category": ""
+        },
+        {
+            "phrase": "EMAIL YOU",
+            "image": "https://www.lifeprint.com/asl101/gifs/e/email.gif",
+            "notes": "palm down towards you. in the image, he uses a finger, but you can use a palm to cut through the C.",
+            "youtube": "ps1Uf6J_khw",
+            "category": ""
+        },
+        {
+            "phrase": "EMAIL ME",
+            "image": "",
+            "notes": "palm down towards me",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "READY",
+            "image": "https://www.lifeprint.com/asl101/signjpegs/r/ready.28.jpg",
+            "notes": "2 R's shake. Can't find the youtube of the version in the image, but you just shake it back and forth.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "PLACE",
+            "image": "",
+            "notes": "2 P'S in a circle towards you",
+            "youtube": "Ka8vriGAuWY",
+            "category": ""
+        },
+        {
+            "phrase": "AREA",
+            "image": "https://www.lifeprint.com/asl101/gifs/a/area.gif",
+            "notes": "2 thumbs touching in a circle towards you",
+            "youtube": "YzELllSB9o",
+            "category": ""
+        },
+        {
+            "phrase": "ROOM",
+            "image": "https://www.lifeprint.com/asl101/gifs/r/room-box.gif",
+            "notes": "2 palm in front of each other and then next to each other",
+            "youtube": "ByET2PW3OrQ",
+            "category": ""
+        },
+        {
+            "phrase": "CAFETERIA",
+            "image": "https://www.lifeprint.com/asl101/gifs-animated/cafeteria.gif",
+            "notes": "C on one side of cheek and then the other side",
+            "youtube": "TXgVQkDoMEc",
+            "category": ""
+        },
+        {
+            "phrase": "STAIRS",
+            "image": "",
+            "notes": "STAIRS UP would just mimic walking up. STAIRS DOWN would just mimic walking down.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "UPSTAIRS",
+            "image": "",
+            "notes": "",
+            "youtube": "9PmnHaz3iBs",
+            "category": ""
+        },
+        {
+            "phrase": "DOWNSTAIRS",
+            "image": "",
+            "notes": "",
+            "youtube": "TFtn8OyCGj4",
+            "category": ""
+        },
+        {
+            "phrase": "LIVE (reside in)",
+            "image": "https://www.lifeprint.com/asl101/gifs/l/live.gif",
+            "notes": "1. Thumbs upwards with both hands from midchest to shoulder 2. Fingerguns up (can't be used to mean address)",
+            "youtube": "4LPjUIU4VMg",
+            "category": ""
+        },
+        {
+            "phrase": "ALONE",
+            "image": "https://www.lifeprint.com/asl101/gifs/s/someone-something.gif",
+            "notes": "",
+            "youtube": "QVPcK3bcFo0",
+            "category": ""
+        },
+        {
+            "phrase": "SOMEONE",
+            "image": "https://www.lifeprint.com/asl101/images-signs/single.gif",
+            "notes": "This is confusing because I remember ALONE and SOMEONE being different. So I didn't include a video.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "WITH (live with)",
+            "image": "https://www.lifeprint.com/asl101/images-signs/with.gif",
+            "notes": "Open A's and pound them together and move a tiny bit outwards",
+            "youtube": "_JfI3DaFB6w",
+            "category": ""
+        },
+        {
+            "phrase": "ROOMMATE",
+            "image": "https://www.lifeprint.com/asl101/signjpegs/m/match.16.jpg",
+            "notes": "is towards one another. and then bring towards one another again. So overall, tap twice.",
+            "youtube": "cMlRLyAmpZc",
+            "category": ""
+        },
+        {
+            "phrase": "QUESTION",
+            "image": "https://www.lifeprint.com/asl101/signjpegs/a/askto3.jpg",
+            "notes": "finger hook",
+            "youtube": "pu0e0qenSKY",
+            "category": ""
+        },
+        {
+            "phrase": "BOY",
+            "image": "https://www.lifeprint.com/asl101/gifs/b/boy.gif",
+            "notes": "1. C on head. 2. pull C out like cap",
+            "youtube": "5H6OSAy-Mzs",
+            "category": ""
+        },
+        {
+            "phrase": "GIRL",
+            "image": "https://www.lifeprint.com/asl101/gifs/g/girl.gif",
+            "notes": "stroke thumb in fist against cheek twice",
+            "youtube": "pwh3cOdoiG4",
+            "category": ""
+        },
+        {
+            "phrase": "FATHER / DAD",
+            "image": "https://www.lifeprint.com/asl101/gifs/d/dad-fast.gif",
+            "notes": "On forehead. 1. tap thumb twice. 2. wiggle non-thumb fingers",
+            "youtube": "1Vllc4F5ic0",
+            "category": ""
+        },
+        {
+            "phrase": "MOTHER / MOM",
+            "image": "https://www.lifeprint.com/asl101/gifs/m/mother-version-2.gif",
+            "notes": "On chin. 1. tap thumb twice. 2. wiggle non-thumb fingers",
+            "youtube": "8yzUd0Md_uY",
+            "category": ""
+        },
+        {
+            "phrase": "HUSBAND",
+            "image": "https://www.lifeprint.com/asl101/gifs/h/husband.gif",
+            "notes": "",
+            "youtube": "TYTsqVZU1dk",
+            "category": ""
+        },
+        {
+            "phrase": "WIFE",
+            "image": "https://www.lifeprint.com/asl101/gifs/w/wife.gif",
+            "notes": "",
+            "youtube": "iHRv4XLlwdcc",
+            "category": ""
+        },
+        {
+            "phrase": "CHILD / CHILDREN",
+            "image": "https://www.lifeprint.com/asl101/gifs/c/child.gif",
+            "notes": "",
+            "youtube": "i32hgy9NSs7k",
+            "category": ""
+        },
+        {
+            "phrase": "TWIN",
+            "image": "",
+            "notes": "",
+            "youtube": "SKpx1-ub5uc",
+            "category": ""
+        },
+        {
+            "phrase": "PARENTS",
+            "image": "https://www.lifeprint.com/asl101/gifs/p/parents.gif",
+            "notes": "",
+            "youtube": "jlqHVbCS4H0",
+            "category": ""
+        },
+        {
+            "phrase": "DAUGHTER",
+            "image": "https://www.lifeprint.com/asl101/gifs/d/daughter.gif",
+            "notes": "",
+            "youtube": "hJD5uIn7ZHg",
+            "category": ""
+        },
+        {
+            "phrase": "SON",
+            "image": "https://www.lifeprint.com/asl101/gifs/s/son.gif",
+            "notes": "",
+            "youtube": "JtgGFe8HIFQ",
+            "category": ""
+        },
+        {
+            "phrase": "SISTER",
+            "image": "https://www.lifeprint.com/asl101/gifs/s/sister.gif",
+            "notes": "",
+            "youtube": "0z2_gcB5OJ8",
+            "category": ""
+        },
+        {
+            "phrase": "BROTHER",
+            "image": "https://www.lifeprint.com/asl101/gifs/b/brother.gif",
+            "notes": "",
+            "youtube": "G0fzmn3pQng",
+            "category": ""
+        },
+        {
+            "phrase": "SIBLING",
+            "image": "https://www.lifeprint.com/asl101/gifs/s/siblings.gif",
+            "notes": "",
+            "youtube": "iFOwYANr5qcA",
+            "category": ""
+        },
+        {
+            "phrase": "FAMILY",
+            "image": "https://www.lifeprint.com/asl101/gifs/f/family.gif",
+            "notes": "",
+            "youtube": "SxrxUgeTt00",
+            "category": ""
+        },
+        {
+            "phrase": "PEOPLE",
+            "image": "https://www.lifeprint.com/asl101/gifs/p/people-2.gif",
+            "notes": "1. P cycling both hands. 2. P cycle once",
+            "youtube": "-zUMt19e-Ro",
+            "category": ""
+        },
+        {
+            "phrase": "ANIMAL",
+            "image": "https://www.lifeprint.com/asl101/gifs-animated/animal.gif",
+            "notes": "HAVE but upwards and inwards",
+            "youtube": "IyMuDawJZu0",
+            "category": ""
+        },
+        {
+            "phrase": "PET (noun + verb)",
+            "image": "https://www.lifeprint.com/asl101/gifs/p/pet.gif",
+            "notes": "different than SLOW. SLOW is slow stroke. PET is a quick stroke with some fingers.",
+            "youtube": "azXM8PGqgLg",
+            "category": ""
+        },
+        {
+            "phrase": "CAT",
+            "image": "https://www.lifeprint.com/asl101/gifs/c/cat.gif",
+            "notes": "1. 2 handed. 2. 1 handed.",
+            "youtube": "a3b8LAX68Ho",
+            "category": ""
+        },
+        {
+            "phrase": "DOG",
+            "image": "https://www.lifeprint.com/asl101/gifs/d/dog.gif",
+            "notes": "1. Snap middle finger. 2. Snap + hip tap. 3. D to G really quick.",
+            "youtube": "IbpJtH_QssM",
+            "category": ""
+        },
+        {
+            "phrase": "BIRD",
+            "image": "https://www.lifeprint.com/asl101/gifs/b/bird.gif",
+            "notes": "Like no, but 2 fingers only and on mouth.",
+            "youtube": "Bibgy-yjgYE",
+            "category": ""
+        },
+        {
+            "phrase": "FISH",
+            "image": "https://www.lifeprint.com/asl101/gifs/f/fish-1.gif",
+            "notes": "1. 2 handed. 2. 1 handed waving.",
+            "youtube": "3xKLhk4NgCs",
+            "category": ""
+        },
+        {
+            "phrase": "TURTLE",
+            "image": "https://www.lifeprint.com/asl101/gifs/t/turtle.gif",
+            "notes": "",
+            "youtube": "1ks2D_AhAX4",
+            "category": ""
+        },
+        {
+            "phrase": "RAT",
+            "image": "https://www.lifeprint.com/asl101/gifs/r/rat.gif",
+            "notes": "R across nose, like an itch",
+            "youtube": "sYgnTw77hk8",
+            "category": ""
+        },
+        {
+            "phrase": "RABBIT",
+            "image": "https://www.lifeprint.com/asl101/gifs/r/rabbit.gif",
+            "notes": "2 ears like shadow puppet",
+            "youtube": "v4v20gVPJyU",
+            "category": ""
+        },
+        {
+            "phrase": "AND",
+            "image": "https://www.lifeprint.com/asl101/gifs/a/and.gif",
+            "notes": "",
+            "youtube": "O5wvGmVozmw",
+            "category": ""
+        },
+        {
+            "phrase": "NEED",
+            "image": "https://www.lifeprint.com/asl101/gifs/n/need-double-movement.gif",
+            "notes": "finger hook down twice",
+            "youtube": "Eo-vEE1gFxM",
+            "category": ""
+        },
+        {
+            "phrase": "BOWLING",
+            "image": "",
+            "notes": "",
+            "youtube": "Oqd1Wfqe3Os",
+            "category": ""
+        },
+        {
+            "phrase": "SPAIN",
+            "image": "",
+            "notes": "",
+            "youtube": "kBbDaJNNO6U",
+            "category": ""
+        },
+        {
+            "phrase": "DANCE",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "BIG (house)",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "LONG LINE",
+            "image": "",
+            "notes": "2 4's moving away from other",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "OH I SEE",
+            "image": "",
+            "notes": "Y down and up a few times",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "KNOW",
+            "image": "",
+            "notes": "Tap head with palm a few times.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "SEARCH / LOOK / HUNT",
+            "image": "",
+            "notes": "C in a circle in front of face",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "WANDERING",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "DON'T KNOW",
+            "image": "",
+            "notes": "KNOW but toss away",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "PICTURE",
+            "image": "",
+            "notes": "left palm can be horizontal or veritcal. C to palm.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "FIND",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "ON PAPER",
+            "image": "",
+            "notes": "FOOD on palm to slap",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "POST",
+            "image": "",
+            "notes": "motion of posting with both hands",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "CALL YOU",
+            "image": "",
+            "notes": "PHONE towards person",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "FACE",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "EYES",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "NONE / DON'T HAVE",
+            "image": "",
+            "notes": "FOOD hand both hands apart like FLOOR",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "KIND",
+            "image": "",
+            "notes": "cycling K's",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "CUTE",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "AGE",
+            "image": "",
+            "notes": "# from chin and then out",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "ADDICTION",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "GAMES",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "MAKES",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "VIDEO",
+            "image": "",
+            "notes": "Like YouTube but with V",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "COOL",
+            "image": "",
+            "notes": "Fingers together on cheek and twist",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "RELATIVE",
+            "image": "",
+            "notes": "using pointer or middle finger, both ok",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "GENDER",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "PREGNANCY",
+            "image": "",
+            "notes": "1. Intertwined fingers. 2. Making a belly shape",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "BORN TO A BABY",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "FALL IN LOVE",
+            "image": "",
+            "notes": "1. Left palm up, right hand with pointer and down onto my palm. 2. ?? ",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "OUT DATE / ING",
+            "image": "",
+            "notes": "1. OUT + fingerspell DATE. 2. OUT + kissing D's",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "STEADY / TOGETHER",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "BOYFRIEND",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "GIRLFRIEND",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "OPPOSE MARRIAGE",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "ENGAGED",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "TO MARRY",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "IN THE FUTURE",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "WANT / DESIRE",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "DO NOT WANT / DESIRE",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "MAYBE",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "NONE / NOTHING",
+            "image": "",
+            "notes": "20's pulled East to West",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "HOW MANY",
+            "image": "",
+            "notes": "Palm up closed to open fingers moving up",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "3 YEARS",
+            "image": "",
+            "notes": "3 plus cycling fists",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "COLLEGE",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "ALL GOOD",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "SMART",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "GIVE AWAY",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "PUPPY",
+            "image": "",
+            "notes": "DOG + BABY",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "GAULLADET UNIVERSITY",
+            "image": "",
+            "notes": "point thumb open to close across forehead",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "AMERICA",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "RELATIONSHIP",
+            "image": "",
+            "notes": "1. interlinked 8 with both hands. 2. interlinked 9/F with both hands.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "AGE",
+            "image": "",
+            "notes": "Similar to OLD. Under chin squeeze twice.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "OLD",
+            "image": "",
+            "notes": "Similar to AGE. Under chin squeeze and pull down beard once.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "YOUNG",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "MONTH",
+            "image": "",
+            "notes": "Cross fingers. # moves down.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "1-9 MONTH",
+            "image": "",
+            "notes": "Number is hand moving down",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "10-20 MONTH",
+            "image": "",
+            "notes": "# + MONTH",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "1-9 YEARS",
+            "image": "",
+            "notes": "Pointer finger on chin. # arcing down from chin and out.",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "20 YEARS",
+            "image": "",
+            "notes": "Pointer finger on chin + TWENTY",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "21 YEARS OLD",
+            "image": "",
+            "notes": "For age, do it separate: 21 + YEARS OLD # + AGE",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "MOST",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "BARKING",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        },
+        {
+            "phrase": "",
+            "image": "",
+            "notes": "",
+            "youtube": "",
+            "category": ""
+        }
+        ];
+
+        const tableBody = document.getElementById('asl-notes');
+        const testingCategory = document.getElementById('testing-category');
+
+        jsonData.forEach(item => {
+            const row = document.createElement('tr');
+            const header = document.createElement('h4');
+            /*
+            switch(${item.category}){
+                case 'numbers':
+                    header.innerHTML = `
+                        ${item.category}
+                    `;
+                    break;
+                case default:
+                    header.innerHTML = `
+                    `;
+                    break;
+            }
+            testingCategory.appendChild(header);
+            */
+            /*
+            row.innerHTML = `
+                <td class="bold">${item.phrase}</td>
+                <td>${item.image ? `<img src="${item.image}" alt="${item.phrase}" width="200">` : ''}</td>
+                <td>
+                    ${item.youtube ? `
+                    <div class="video-container">
+                        <iframe width="250" height="141" src="https://www.youtube.com/embed/${item.youtube}?autoplay=0&loop=1&playlist=${item.youtube}&mute=1&showinfo=0&controls=1&modestbranding=1&autohide=0&color=white&playsinline=1&rel=0&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                    </div>
+                    ` : ''}
+                </td>
+                <td>${item.notes}</td>
+            `;
+            */
+            row.innerHTML = `
+                <td class="bold">${item.phrase}</td>
+                <td>${item.image ? `<img src="${item.image}" alt="${item.phrase}" width="200">` : ''}</td>
+                <td>
+                    ${item.image ? `
+                        ${item.youtube ? `
+                            <a href="https://www.youtube.com/embed/${item.youtube}?autoplay=1&loop=1&playlist=${item.youtube}&mute=1" target="youtube-viewing-area">${item.phrase}</a> on YouTube
+                        ` : ''}
+                    ` : `
+                        ${item.youtube ? `
+                            <a href="https://www.youtube.com/embed/${item.youtube}?autoplay=1&loop=1&playlist=${item.youtube}&mute=1" target="youtube-viewing-area">${item.phrase}</a> on YouTube
+                        ` : ''}
+                    `}
+                </td>
+                <td>${item.notes}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+        /* 
+        <div class="video-container">
+            Larger view for YouTube: <a href="https://www.youtube.com/embed/${item.youtube}?autoplay=1&loop=1&playlist=${item.youtube}&mute=1" target="youtube-viewing-area">${item.phrase}</a>
+            <iframe width="250" height="141" src="https://www.youtube.com/embed/${item.youtube}?autoplay=0&loop=1&playlist=${item.youtube}&mute=1&showinfo=0&controls=1&modestbranding=1&autohide=0&color=white&playsinline=1&rel=0&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media;"></iframe>
+        </div>
+        */
+
+
+        /*
+        var youtubeToggleButton = $('.toggle-youtube');
+        youtubeToggleButton.on( "click", function() {
+           $("tr td:nth-child(3)").each(
+                function() {
+                if (this.style.display !== 'none'){
+                    this.style.displey = 'none';
+                } else {
+                    this.style.display = 'block';
+                }
+                }
+            ) 
+        });
+        */
+
+        /*
+        button.onclick = function() {
+            //var div = document.getElementById('newpost');
+            if (div.style.display !== 'none') {
+                div.style.display = 'none';
+            }
+            else {
+                div.style.display = 'block';
+            }
+        };
+        */
+    </script>
+</body>
+</html>
